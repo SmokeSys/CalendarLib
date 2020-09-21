@@ -54,7 +54,7 @@ namespace CalendarLib
     /// <summary>
     /// Event
     /// </summary>
-    class CalendarEvent
+    public class CalendarEvent
     {
 
         #region Fields
@@ -173,52 +173,166 @@ namespace CalendarLib
         #endregion
     }
 
-    class DateList : IEnumerable<CalendarEvent> //enum?
-    {
-        List<CalendarEvent> l;
-        public DateList()
-        {
-            l = new List<CalendarEvent>();
-        }
+    //class DateList : IEnumerable<CalendarEvent> 
+    //{
+    //    List<CalendarEvent> l;
+    //    public DateList()
+    //    {
+    //        l = new List<CalendarEvent>();
+    //    }
 
-        public void Add(CalendarEvent c)
-        {           
-            int i = 0;
-            bool f = false;
-            for(; i < l.Count; i++)
-            {
-                if (l[i].StartTime > c.StartTime)
-                {
-                    f = true;
-                    break;
-                }
-            }
-            l.Insert(f ? i-- : i, c);
-        }
-        public void Remove(CalendarEvent c)
-        {
-            l.Remove(c);
-        }
-        public CalendarEvent AtIndex(int index)
-        {
-            return l[index];
-        }
+    //    public void Add(CalendarEvent c)
+    //    {           
+    //        int i = 0;
+    //        bool f = false;
+    //        for(; i < l.Count; i++)
+    //        {
+    //            if (l[i].StartTime > c.StartTime)
+    //            {
+    //                f = true;
+    //                break;
+    //            }
+    //        }
+    //        l.Insert(f ? i-- : i, c);
+    //    }
+    //    public void Remove(CalendarEvent c)
+    //    {
+    //        l.Remove(c);
+    //    }
+    //    public CalendarEvent AtIndex(int index)
+    //    {
+    //        return l[index];
+    //    }
 
-        public IEnumerator<CalendarEvent> GetEnumerator()
-        {
-            return l.GetEnumerator();
-        }
+    //    public IEnumerator<CalendarEvent> GetEnumerator()
+    //    {
+    //        return l.GetEnumerator();
+    //    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return l.GetEnumerator();
-        }
-    }
+    //    IEnumerator IEnumerable.GetEnumerator()
+    //    {
+    //        return l.GetEnumerator();
+    //    }
+    //}
 
     public class Calendar
     {
-        public DateTime CurrentTime { get; }
-        DateList Events { get; }
+        #region Fields
+        public DateTime CurrentTime { get { return _currenttime; } }
+        private DateTime _currenttime;
+        public List<CalendarEvent> Events { get { return _events; } }
+        private List<CalendarEvent> _events;
+        //public List<CalendarEvent> Log { get { return _log; } }
+        //private List<CalendarEvent> _log;
 
+        #endregion
+
+        #region Constructors
+
+        public Calendar()
+        {
+            _currenttime = new DateTime(2020, 1, 1, 0, 0, 0);
+            _events = new List<CalendarEvent>();
+            //_log = new List<CalendarEvent>();
+        }
+
+        public Calendar(List<CalendarEvent> e)
+        {
+            _currenttime = new DateTime(2020, 1, 1, 0, 0, 0);
+            _events = e ?? new List<CalendarEvent>();
+        }
+
+        public Calendar(DateTime dt)
+        {
+            _currenttime = dt;
+            _events = new List<CalendarEvent>();
+        }
+        public Calendar(DateTime dt, List<CalendarEvent> e)
+        {
+            _currenttime = dt;
+            _events = e ?? new List<CalendarEvent>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        ///// <summary>
+        ///// Ignore conflict, or havent permission
+        ///// </summary>
+        ///// <param name="index">Last item in "trouble list"</param>
+        ///// <returns>Returns trouble list if conflict included</returns>
+        //public void AddEvent(CalendarEvent e, int index)
+        //{
+        //    _events.Insert(index, e);
+        //}
+
+        ///// <summary>
+        ///// Trouble list format "{index in Calendar.Events} {conflict field name}"
+        ///// </summary>
+        ///// <returns>Returns trouble list if conflict included, last item - index</returns>
+        public void AddEvent(CalendarEvent e)
+        {
+            int ind = 0;
+            //List<string> l = new List<string>(); //dodelat
+            for (int i = 0; i < _events.Count; i++)
+            {
+                if (_events[i].StartTime > e.StartTime)
+                {
+                    ind = --i;
+                    break;
+                }
+            }
+
+            _events.Insert(ind, e);
+
+        }
+
+        //check errors methods?
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e">Уже измененное событие</param>
+        /// <returns></returns>
+        public void ChangeCharacteric(CalendarEvent old, CalendarEvent n)
+        {
+            Remove(old);
+            AddEvent(n);
+        }
+
+
+        public int IndexOf(CalendarEvent e)
+        {
+            return _events.IndexOf(e);
+        }
+
+        /// <summary>
+        /// Removing nearest event
+        /// </summary>
+        /// <returns></returns>
+        public CalendarEvent Remove()
+        {
+            CalendarEvent temp = _events[0];
+            _events.RemoveAt(0);
+            return temp;
+        }
+        
+
+        /// <summary>
+        /// Removing specifies element
+        /// </summary>
+        /// <param name="e"></param>
+        public void Remove(CalendarEvent e)
+        {
+            _events.Remove(e);
+        }
+
+        public void RemoveAt(int index)
+        {
+            _events.RemoveAt(index);
+        }
+
+        #endregion
     }
 }
