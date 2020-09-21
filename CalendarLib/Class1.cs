@@ -123,22 +123,22 @@ namespace CalendarLib
             {
                 switch (ct.ToLower())
                 {
-                    case "Description":
+                    case "description":
                         _description = (string)newp;
                         break;
-                    case "EventType":
+                    case "eventtype":
                         _eventtype = (EventType)newp;
                         break;
-                    case "StartTime":
+                    case "starttime":
                         _starttime = (DateTime)newp;
                         break;
-                    case "EndTime":
+                    case "endtime":
                         _endtime = (DateTime)newp;
                         break;
-                    case "EventPlace":
+                    case "eventplace":
                         _eventplace = (EventPlace)newp;
                         break;
-                    case "MemberName":
+                    case "membername":
                         _members = (List<User>)newp;
                         break;
                     default: return 0;
@@ -280,18 +280,35 @@ namespace CalendarLib
         public void AddEvent(CalendarEvent e)
         {
             int ind = 0;
+            int i = 0;
             //List<string> l = new List<string>(); //dodelat
-            for (int i = 0; i < _events.Count; i++)
+            for (; i < _events.Count; i++)
             {
                 if (_events[i].StartTime > e.StartTime)
                 {
-                    ind = --i;
+                    ind = i == 0 ? i : --i;
                     break;
                 }
             }
-
+            if (i == _events.Count)
+            {
+                _events.Add(e);
+                return;
+            }
             _events.Insert(ind, e);
 
+        }
+
+        public void AddEvents(List<CalendarEvent> l)
+        {
+            if (l.Count != 0)
+                foreach (var t in l)
+                    AddEvent(t);
+        }
+
+        public void AddAt(CalendarEvent e, int index)
+        {
+            _events.Insert(index, e);
         }
 
         //check errors methods?
