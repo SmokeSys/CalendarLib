@@ -51,9 +51,8 @@ namespace CalendarLib
     {
         Conference, Marketing, IT, Security, Development, Research, Finance, Transport
     }
-    /// <summary>
-    /// Event
-    /// </summary>
+
+     
     public class CalendarEvent
     {
 
@@ -68,7 +67,7 @@ namespace CalendarLib
         private DateTime _endtime;
         public EventPlace EventPlace { get{ return _eventplace; } }
         private EventPlace _eventplace;
-        public List<User> Members { get { return _members; } } //uvedomlenie 
+        public List<User> Members { get { return _members; } } 
         private List<User> _members;
 
         /// <summary>
@@ -179,47 +178,7 @@ namespace CalendarLib
         #endregion
     }
 
-    //class DateList : IEnumerable<CalendarEvent> 
-    //{
-    //    List<CalendarEvent> l;
-    //    public DateList()
-    //    {
-    //        l = new List<CalendarEvent>();
-    //    }
 
-    //    public void Add(CalendarEvent c)
-    //    {           
-    //        int i = 0;
-    //        bool f = false;
-    //        for(; i < l.Count; i++)
-    //        {
-    //            if (l[i].StartTime > c.StartTime)
-    //            {
-    //                f = true;
-    //                break;
-    //            }
-    //        }
-    //        l.Insert(f ? i-- : i, c);
-    //    }
-    //    public void Remove(CalendarEvent c)
-    //    {
-    //        l.Remove(c);
-    //    }
-    //    public CalendarEvent AtIndex(int index)
-    //    {
-    //        return l[index];
-    //    }
-
-    //    public IEnumerator<CalendarEvent> GetEnumerator()
-    //    {
-    //        return l.GetEnumerator();
-    //    }
-
-    //    IEnumerator IEnumerable.GetEnumerator()
-    //    {
-    //        return l.GetEnumerator();
-    //    }
-    //}
 
     public class Calendar
     {
@@ -228,8 +187,6 @@ namespace CalendarLib
         private DateTime _currenttime;
         public List<CalendarEvent> Events { get { return _events; } }
         private List<CalendarEvent> _events;
-        //public List<CalendarEvent> Log { get { return _log; } }
-        //private List<CalendarEvent> _log;
 
         #endregion
 
@@ -239,7 +196,6 @@ namespace CalendarLib
         {
             _currenttime = new DateTime(2020, 1, 1, 0, 0, 0);
             _events = new List<CalendarEvent>();
-            //_log = new List<CalendarEvent>();
         }
 
         public Calendar(List<CalendarEvent> e)
@@ -263,15 +219,6 @@ namespace CalendarLib
 
         #region Methods
 
-        ///// <summary>
-        ///// Ignore conflict, or havent permission
-        ///// </summary>
-        ///// <param name="index">Last item in "trouble list"</param>
-        ///// <returns>Returns trouble list if conflict included</returns>
-        //public void AddEvent(CalendarEvent e, int index)
-        //{
-        //    _events.Insert(index, e);
-        //}
 
         ///// <summary>
         ///// Trouble list format "{index in Calendar.Events} {conflict field name}"
@@ -281,7 +228,6 @@ namespace CalendarLib
         {
             int ind = 0;
             int i = 0;
-            //List<string> l = new List<string>(); //dodelat
             for (; i < _events.Count; i++)
             {
                 if (_events[i].StartTime > e.StartTime)
@@ -311,7 +257,7 @@ namespace CalendarLib
             _events.Insert(index, e);
         }
 
-        //check errors methods?
+
 
         /// <summary>
         /// 

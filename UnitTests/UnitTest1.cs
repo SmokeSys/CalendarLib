@@ -26,7 +26,6 @@ namespace CalLibTest
             temp = n.Change(tempUser, "Description", "dadada");
             Assert.AreEqual(1, temp);
             Assert.AreEqual("dadada", n.Description);
-            //Assert
         }
         
         [TestMethod]
