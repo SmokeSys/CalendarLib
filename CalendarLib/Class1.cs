@@ -37,7 +37,7 @@ namespace CalendarLib
 
         public override string ToString()
         {
-            return String.Format("{0} , {1} in {2} Department", Name, Post, Department);
+            return String.Format("{0}, {1} in {2} Department", Name, Post, Department);
         }
     }
 
@@ -68,7 +68,7 @@ namespace CalendarLib
         private DateTime _endtime;
         public EventPlace EventPlace { get{ return _eventplace; } }
         private EventPlace _eventplace;
-        public List<User> MemberName { get { return _members; } } //uvedomlenie 
+        public List<User> Members { get { return _members; } } //uvedomlenie 
         private List<User> _members;
 
         /// <summary>
@@ -153,6 +153,12 @@ namespace CalendarLib
         public void AddMember(User add)
         {
             _members.Add(add);
+        }
+
+        public void AddMembers(List<User> m)
+        {
+            if (m == null) return;
+            _members = m;
         }
 
         /// <summary>
