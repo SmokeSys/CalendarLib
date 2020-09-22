@@ -14,7 +14,7 @@ namespace CalendarLib
 
     public enum Department
     {
-        Marketing, IT, Security, Development, Research, Finance, Transport
+        Marketing, IT, Security, Development, Research, Finance, Transport, Other
     }
 
     /// <summary>
@@ -180,11 +180,9 @@ namespace CalendarLib
 
 
 
-    public class Calendar
+    public class CalendarL
     {
         #region Fields
-        public DateTime CurrentTime { get { return _currenttime; } }
-        private DateTime _currenttime;
         public List<CalendarEvent> Events { get { return _events; } }
         private List<CalendarEvent> _events;
 
@@ -192,26 +190,13 @@ namespace CalendarLib
 
         #region Constructors
 
-        public Calendar()
+        public CalendarL()
         {
-            _currenttime = new DateTime(2020, 1, 1, 0, 0, 0);
             _events = new List<CalendarEvent>();
         }
 
-        public Calendar(List<CalendarEvent> e)
+        public CalendarL(List<CalendarEvent> e)
         {
-            _currenttime = new DateTime(2020, 1, 1, 0, 0, 0);
-            _events = e ?? new List<CalendarEvent>();
-        }
-
-        public Calendar(DateTime dt)
-        {
-            _currenttime = dt;
-            _events = new List<CalendarEvent>();
-        }
-        public Calendar(DateTime dt, List<CalendarEvent> e)
-        {
-            _currenttime = dt;
             _events = e ?? new List<CalendarEvent>();
         }
 

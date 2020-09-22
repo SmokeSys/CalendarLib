@@ -31,7 +31,7 @@ namespace CalLibTest
         [TestMethod]
         public void SortChecker()
         {
-            Calendar c = new Calendar();
+            CalendarL c = new CalendarL();
 
             CalendarEvent _1 = new CalendarEvent(EventType.Другое , new DateTime(2020, 01, 01, 0, 0, 0), new DateTime(2020, 01, 01, 12, 0, 0), EventPlace.IT, 1);
             CalendarEvent _2 = new CalendarEvent(EventType.Другое, new DateTime(2020, 01, 01, 4, 0, 0), new DateTime(2020, 01, 01, 16, 0, 0), EventPlace.Security, 1);

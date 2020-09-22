@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarLib", "CalendarLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{7E94AF50-CD04-481F-951F-29D3248DBCBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clotho", "D:\Inf\yakim\Clotho\Clotho.csproj", "{F5BA9BB2-68B0-4CB9-A1F5-6D9E6E18A822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7E94AF50-CD04-481F-951F-29D3248DBCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E94AF50-CD04-481F-951F-29D3248DBCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E94AF50-CD04-481F-951F-29D3248DBCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5BA9BB2-68B0-4CB9-A1F5-6D9E6E18A822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5BA9BB2-68B0-4CB9-A1F5-6D9E6E18A822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5BA9BB2-68B0-4CB9-A1F5-6D9E6E18A822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5BA9BB2-68B0-4CB9-A1F5-6D9E6E18A822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
