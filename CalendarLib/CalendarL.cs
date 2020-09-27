@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CalendarLib
 {
@@ -77,6 +80,7 @@ namespace CalendarLib
         #endregion
 
         #region Constructors
+
         public CalendarEvent(EventType et, DateTime s, DateTime e, EventPlace ep)
         {
             _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new List<User>();
@@ -180,11 +184,13 @@ namespace CalendarLib
 
 
 
-    public class CalendarL
+    public class CalendarL: IEnumerable<CalendarEvent>, INotifyPropertyChanged
     {
         #region Fields
         public List<CalendarEvent> Events { get { return _events; } }
         private List<CalendarEvent> _events;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
@@ -203,7 +209,10 @@ namespace CalendarLib
         #endregion
 
         #region Methods
-
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         ///// <summary>
         ///// Trouble list format "{index in Calendar.Events} {conflict field name}"
@@ -227,7 +236,7 @@ namespace CalendarLib
                 return;
             }
             _events.Insert(ind, e);
-
+            NotifyPropertyChanged();
         }
 
         public void AddEvents(List<CalendarEvent> l)
@@ -235,11 +244,13 @@ namespace CalendarLib
             if (l.Count != 0)
                 foreach (var t in l)
                     AddEvent(t);
+            NotifyPropertyChanged();
         }
 
         public void AddAt(CalendarEvent e, int index)
         {
             _events.Insert(index, e);
+            NotifyPropertyChanged();
         }
 
 
@@ -253,6 +264,7 @@ namespace CalendarLib
         {
             Remove(old);
             AddEvent(n);
+            NotifyPropertyChanged();
         }
 
 
@@ -269,6 +281,7 @@ namespace CalendarLib
         {
             CalendarEvent temp = _events[0];
             _events.RemoveAt(0);
+            NotifyPropertyChanged();
             return temp;
         }
         
@@ -280,11 +293,23 @@ namespace CalendarLib
         public void Remove(CalendarEvent e)
         {
             _events.Remove(e);
+            NotifyPropertyChanged();
         }
 
         public void RemoveAt(int index)
         {
             _events.RemoveAt(index);
+            NotifyPropertyChanged();
+        }
+
+        public IEnumerator<CalendarEvent> GetEnumerator()
+        {
+            return _events.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator) GetEnumerator();
         }
 
         #endregion
