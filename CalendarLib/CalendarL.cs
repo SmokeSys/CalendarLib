@@ -104,7 +104,7 @@ namespace CalendarLib
         {
             _description = d; _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep;
             if (p >= 0 || p <= 3) Priority = p;
-            if (n.Count > 0)
+            if (n != null && n.Count > 0)
                 _members = n;
         }
         #endregion
@@ -175,7 +175,7 @@ namespace CalendarLib
 
         public override string ToString()
         {
-            return String.Format("{0} \nfrom {1} \nto {2} \nin {3}. \n{4}", _eventtype, _starttime, _endtime, _eventplace, _description);
+            return String.Format("{0} \nfrom {1} \nto {2} \nin {3}. \n{4}", _eventtype, _starttime.ToString("HH:mm dd/MM/yyyy"), _endtime.ToString("HH:mm dd/MM/yyyy"), _eventplace, _description);
         }
         #endregion
     }
@@ -280,14 +280,17 @@ namespace CalendarLib
         /// Removing specifies element
         /// </summary>
         /// <param name="e"></param>
-        public void Remove(CalendarEvent e)
+        public CalendarEvent Remove(CalendarEvent e)
         {
             _events.Remove(e);
+            return e;
         }
 
-        public void RemoveAt(int index)
+        public CalendarEvent RemoveAt(int index)
         {
+            CalendarEvent temp = _events[index];
             _events.RemoveAt(index);
+            return temp;
         }
 
         public IEnumerator<CalendarEvent> GetEnumerator()
