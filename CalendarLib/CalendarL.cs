@@ -36,6 +36,16 @@ namespace CalendarLib
             Name = name; Post = p; Department = d;
         }
 
+        public static bool operator ==(User c1, User c2)
+        {
+            return c1.Name == c2.Name && c1.Post == c2.Post && c1.Department == c2.Department;
+        }
+
+        public static bool operator !=(User c1, User c2)
+        {
+            return c1.Name != c2.Name || c1.Post != c2.Post || c1.Department != c2.Department;
+        }
+
         public override string ToString()
         {
             return String.Format("{0}\n{1} in {2} Department", Name, Post, Department);
