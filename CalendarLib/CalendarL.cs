@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace CalendarLib
 {
@@ -70,8 +68,8 @@ namespace CalendarLib
         private DateTime _endtime;
         public EventPlace EventPlace { get{ return _eventplace; } }
         private EventPlace _eventplace;
-        public List<User> Members { get { return _members; } } 
-        private List<User> _members;
+        public ObservableCollection<User> Members { get { return _members; } } 
+        private ObservableCollection<User> _members;
 
         /// <summary>
         /// From 0(highest) to 3(lowest). Default Priority = 3
@@ -83,10 +81,10 @@ namespace CalendarLib
 
         public CalendarEvent(EventType et, DateTime s, DateTime e, EventPlace ep)
         {
-            _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new List<User>();
+            _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new ObservableCollection<User>();
         }
 
-        public CalendarEvent(EventType et, DateTime s, DateTime e, EventPlace ep, List<User> n)
+        public CalendarEvent(EventType et, DateTime s, DateTime e, EventPlace ep, ObservableCollection<User> n)
         {
             _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep;
             if (n.Count > 0) _members = n;
@@ -94,15 +92,15 @@ namespace CalendarLib
 
         public CalendarEvent(EventType et, DateTime s, DateTime e, EventPlace ep, int p)
         {
-            _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new List<User>();
+            _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new ObservableCollection<User>();
             if (p >= 0 || p <= 3) Priority = p;
         }
         public CalendarEvent(string d, EventType et, DateTime s, DateTime e, EventPlace ep, int p)
         {
-            _description = d; _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new List<User>();
+            _description = d; _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep; _members = new ObservableCollection<User>();
             if (p >= 0 || p <= 3) Priority = p;
         }
-        public CalendarEvent(string d, EventType et, DateTime s, DateTime e, EventPlace ep, int p, List<User> n)
+        public CalendarEvent(string d, EventType et, DateTime s, DateTime e, EventPlace ep, int p, ObservableCollection<User> n)
         {
             _description = d; _eventtype = et; _starttime = s; _endtime = e; _eventplace = ep;
             if (p >= 0 || p <= 3) Priority = p;
@@ -142,7 +140,7 @@ namespace CalendarLib
                         _eventplace = (EventPlace)newp;
                         break;
                     case "membername":
-                        _members = (List<User>)newp;
+                        _members = (ObservableCollection<User>)newp;
                         break;
                     default: return 0;
                 }
@@ -158,7 +156,7 @@ namespace CalendarLib
             _members.Add(add);
         }
 
-        public void AddMembers(List<User> m)
+        public void AddMembers(ObservableCollection<User> m)
         {
             if (m == null) return;
             _members = m;
@@ -177,20 +175,18 @@ namespace CalendarLib
 
         public override string ToString()
         {
-            return String.Format("{0} from {1} to {2} in {3}. {4}", _eventtype, _starttime, _endtime, _eventplace, _description);
+            return String.Format("{0} \nfrom {1} \nto {2} \nin {3}. \n{4}", _eventtype, _starttime, _endtime, _eventplace, _description);
         }
         #endregion
     }
 
 
 
-    public class CalendarL: IEnumerable<CalendarEvent>, INotifyPropertyChanged
+    public class CalendarL: IEnumerable<CalendarEvent>/*, INotifyCollectionChanged*/
     {
         #region Fields
-        public List<CalendarEvent> Events { get { return _events; } }
-        private List<CalendarEvent> _events;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<CalendarEvent> Events { get { return _events; } }
+        private ObservableCollection<CalendarEvent> _events;
 
         #endregion
 
@@ -198,21 +194,19 @@ namespace CalendarLib
 
         public CalendarL()
         {
-            _events = new List<CalendarEvent>();
+            _events = new ObservableCollection<CalendarEvent>();
         }
 
-        public CalendarL(List<CalendarEvent> e)
+        public CalendarL(ObservableCollection<CalendarEvent> e)
         {
-            _events = e ?? new List<CalendarEvent>();
+            _events = e ?? new ObservableCollection<CalendarEvent>();
         }
 
         #endregion
 
         #region Methods
-        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
+
 
         ///// <summary>
         ///// Trouble list format "{index in Calendar.Events} {conflict field name}"
@@ -221,6 +215,7 @@ namespace CalendarLib
         public void AddEvent(CalendarEvent e)
         {
             int ind = 0;
+            
             int i = 0;
             for (; i < _events.Count; i++)
             {
@@ -236,7 +231,6 @@ namespace CalendarLib
                 return;
             }
             _events.Insert(ind, e);
-            NotifyPropertyChanged();
         }
 
         public void AddEvents(List<CalendarEvent> l)
@@ -244,13 +238,11 @@ namespace CalendarLib
             if (l.Count != 0)
                 foreach (var t in l)
                     AddEvent(t);
-            NotifyPropertyChanged();
         }
 
         public void AddAt(CalendarEvent e, int index)
         {
             _events.Insert(index, e);
-            NotifyPropertyChanged();
         }
 
 
@@ -264,7 +256,6 @@ namespace CalendarLib
         {
             Remove(old);
             AddEvent(n);
-            NotifyPropertyChanged();
         }
 
 
@@ -281,7 +272,6 @@ namespace CalendarLib
         {
             CalendarEvent temp = _events[0];
             _events.RemoveAt(0);
-            NotifyPropertyChanged();
             return temp;
         }
         
@@ -293,13 +283,11 @@ namespace CalendarLib
         public void Remove(CalendarEvent e)
         {
             _events.Remove(e);
-            NotifyPropertyChanged();
         }
 
         public void RemoveAt(int index)
         {
             _events.RemoveAt(index);
-            NotifyPropertyChanged();
         }
 
         public IEnumerator<CalendarEvent> GetEnumerator()
