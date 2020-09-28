@@ -38,7 +38,7 @@ namespace CalendarLib
 
         public override string ToString()
         {
-            return String.Format("{0}, {1} in {2} Department", Name, Post, Department);
+            return String.Format("{0}\n{1} in {2} Department", Name, Post, Department);
         }
     }
 
